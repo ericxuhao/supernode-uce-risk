@@ -1,0 +1,12 @@
+# 已验证的精确版本（Windows 11, Python 3.13.9）。
+# 随包附带的预训练模型（models/models.joblib）是用这些版本保存的；
+# scikit-learn / lightgbm 的主版本不同可能无法加载，此时请用 supernode/retrain.py 或 supernode/build.py 重新训练。
+numpy==2.3.5
+pandas==2.3.3
+scikit-learn==1.7.2
+lightgbm==4.7.0
+optuna==5.1.0
+pyarrow==21.0.0
+joblib==1.5.2
+flask==3.1.2
+waitress==3.0.2

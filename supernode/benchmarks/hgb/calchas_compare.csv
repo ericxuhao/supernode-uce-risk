@@ -1,0 +1,9 @@
+,,P,P,R,R,F1,F1,PR_AUC,PR_AUC,test_pos_rate,test_pos_rate
+,,mean,std,mean,std,mean,std,mean,std,mean,std
+protocol,model,,,,,,,,,,
+A_calchas,Calchas_RF_thr0.6,0.34,0.015,0.471,0.015,0.395,0.014,0.225,0.013,0.072,0.002
+A_calchas,Calchas_RF_valF1,0.351,0.02,0.459,0.019,0.397,0.016,0.225,0.013,0.072,0.002
+A_calchas,Hybrid_valF1,0.343,0.017,0.548,0.016,0.422,0.014,0.255,0.014,0.072,0.002
+B_strict,Calchas_RF_thr0.6,0.051,0.001,0.482,0.007,0.093,0.001,0.034,0.001,0.008,0.0
+B_strict,Calchas_RF_valF1,0.052,0.004,0.479,0.017,0.094,0.006,0.034,0.001,0.008,0.0
+B_strict,Hybrid_valF1,0.051,0.001,0.565,0.004,0.094,0.002,0.04,0.002,0.008,0.0

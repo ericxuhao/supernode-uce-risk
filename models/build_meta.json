@@ -1,0 +1,1362 @@
+{
+ "built": "2026-11-20 18:51",
+ "bags": 3,
+ "tune": 20,
+ "models": {
+  "log": {
+   "info": {
+    "scenario": "ALL",
+    "inputs": [
+     "ev__",
+     "hi__",
+     "nbe__",
+     "nbh__"
+    ],
+    "n_features": 91,
+    "backend": "lgbm",
+    "tree_params": {},
+    "groups": [
+     "ev",
+     "hi",
+     "nbe",
+     "nbh"
+    ],
+    "fusion_weight_ai": {
+     "1h": 0.5,
+     "4h": 0.75,
+     "1d": 0.9166666666666666
+    },
+    "train_samples": 315927,
+    "val_samples": 133814,
+    "val_positives": {
+     "1h": 2,
+     "4h": 11,
+     "1d": 24
+    }
+   },
+   "thresholds": {
+    "1h": {
+     "fpr1": 4.165483469307001e-06,
+     "valF1": 0.0014055003279645126
+    },
+    "4h": {
+     "fpr1": 8.349103236815078e-06,
+     "valF1": 0.0015505562102794042
+    },
+    "1d": {
+     "fpr1": 3.058734303052252e-05,
+     "valF1": 0.2820706438705814
+    }
+   },
+   "report": {
+    "fields": {
+     "error_code": "cause",
+     "device": "device",
+     "host": "host",
+     "time": "t",
+     "event_codes": [
+      "bg_DEVICE_MEMORY_ILLEGAL_ACCESS",
+      "bg_COMPUTE_ENGINE_EXCEPTION",
+      "bg_COMPUTE_TASK_ABORTED",
+      "MEMORY_PAGE_RETIRED",
+      "INTERCONNECT_LINK_ERROR",
+      "PREEMPTIVE_CLEANUP",
+      "MICROCONTROLLER_WARNING",
+      "CONTEXT_SWITCH_FAULT",
+      "DEVICE_LOST",
+      "DRIVER_FIRMWARE_ERROR",
+      "MICROCONTROLLER_HALT",
+      "MEMORY_PAGE_RETIRE_FAILED",
+      "other"
+     ],
+     "background_codes": [
+      "DEVICE_MEMORY_ILLEGAL_ACCESS",
+      "COMPUTE_ENGINE_EXCEPTION",
+      "COMPUTE_TASK_ABORTED"
+     ]
+    },
+    "modules": [
+     "discrete events (ev__)",
+     "same-node context (nb*__)",
+     "UCE history (hi__)"
+    ]
+   }
+  },
+  "ce": {
+   "info": {
+    "scenario": "ALL",
+    "inputs": [
+     "ce__",
+     "hi__",
+     "nbc__",
+     "nbh__",
+     "sp__"
+    ],
+    "n_features": 72,
+    "backend": "lgbm",
+    "tree_params": {},
+    "groups": [
+     "ce",
+     "hi",
+     "nbc",
+     "nbh",
+     "sp"
+    ],
+    "fusion_weight_ai": {
+     "1h": 0.5,
+     "4h": 0.5,
+     "1d": 0.5
+    },
+    "train_samples": 1238,
+    "val_samples": 1751,
+    "val_positives": {
+     "1h": 0,
+     "4h": 4,
+     "1d": 20
+    }
+   },
+   "thresholds": {
+    "1h": {
+     "fpr1": 0.0004035512510088801,
+     "valF1": 1.0
+    },
+    "4h": {
+     "fpr1": 0.007396149777424586,
+     "valF1": 0.007396149777424585
+    },
+    "1d": {
+     "fpr1": 0.014149279959563308,
+     "valF1": 0.008461291432974912
+    }
+   },
+   "report": {
+    "fields": {
+     "error_code": "cause",
+     "device": "device",
+     "host": "host",
+     "time": "t",
+     "ce_location": {
+      "stack": "stack",
+      "sid": "sid",
+      "pc": "pc",
+      "bg": "bg",
+      "bank": "bank",
+      "row": "row",
+      "col": "col"
+     }
+    },
+    "modules": [
+     "CE counts (ce__)",
+     "CE spatial / fault modes (sp__)",
+     "same-node context (nb*__)",
+     "UCE history (hi__)"
+    ]
+   }
+  }
+ },
+ "fta_weights": {
+  "log": {
+   "M_RECUR": {
+    "af": 0.95,
+    "rr": 780.2137708177977,
+    "support": 1341,
+    "p_uce": 0.08873974645786727
+   },
+   "M_MULTI": {
+    "af": 0.95,
+    "rr": 267.7424182823778,
+    "support": 4907,
+    "p_uce": 0.025881393927043
+   },
+   "M_RETIRE": {
+    "af": 0.95,
+    "rr": 59.46325163768736,
+    "support": 26494,
+    "p_uce": 0.005057748924284743
+   },
+   "M_RETIRE_FAIL": {
+    "af": 0.95,
+    "rr": 73.90319122618949,
+    "support": 1629,
+    "p_uce": 0.022099447513812154
+   },
+   "M_CE_STORM": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "M_CE_BURST": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "M_ROWCOL": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "M_BANK": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "M_DEFERRED": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "D_LOST": {
+    "af": 0.0,
+    "rr": 0.0,
+    "support": 1418,
+    "p_uce": 0.0
+   },
+   "D_LINK": {
+    "af": 0.8357894516502253,
+    "rr": 6.089742772613865,
+    "support": 11821,
+    "p_uce": 0.00203028508586414
+   },
+   "D_MCU": {
+    "af": 0.9004200682932163,
+    "rr": 10.042184031060913,
+    "support": 3678,
+    "p_uce": 0.0035345296356715608
+   },
+   "N_UCE": {
+    "af": 0.0,
+    "rr": 0.0,
+    "support": 727,
+    "p_uce": 0.0
+   },
+   "N_HW": {
+    "af": 0.0,
+    "rr": 0.1204991315821059,
+    "support": 21051,
+    "p_uce": 4.750368153531899e-05
+   },
+   "S_APP": {
+    "af": 0.0,
+    "rr": 0.007617528582562419,
+    "support": 395805,
+    "p_uce": 2.2738469700989123e-05
+   },
+   "S_DRV": {
+    "af": 0.0,
+    "rr": 0.0,
+    "support": 2657,
+    "p_uce": 0.0
+   },
+   "_base": 0.00037799533509286454
+  },
+  "ce": {
+   "M_RECUR": {
+    "af": 0.8720294676806084,
+    "rr": 7.814298978644382,
+    "support": 359,
+    "p_uce": 0.04456824512534819
+   },
+   "M_MULTI": {
+    "af": 0.0,
+    "rr": 0.7243798449612403,
+    "support": 1290,
+    "p_uce": 0.008527131782945736
+   },
+   "M_RETIRE": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "M_RETIRE_FAIL": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "M_CE_STORM": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "M_CE_BURST": {
+    "af": null,
+    "rr": null,
+    "support": 15
+   },
+   "M_ROWCOL": {
+    "af": 0.0,
+    "rr": 0.0,
+    "support": 62,
+    "p_uce": 0.0
+   },
+   "M_BANK": {
+    "af": 0.0,
+    "rr": 0.0,
+    "support": 102,
+    "p_uce": 0.0
+   },
+   "M_DEFERRED": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "D_LOST": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "D_LINK": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "D_MCU": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "N_UCE": {
+    "af": 0.354066985645933,
+    "rr": 1.548148148148148,
+    "support": 63,
+    "p_uce": 0.015873015873015872
+   },
+   "N_HW": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "S_APP": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "S_DRV": {
+    "af": null,
+    "rr": null,
+    "support": 0
+   },
+   "_base": 0.010371361659417865
+  }
+ },
+ "effectiveness": {
+  "log": {
+   "1h": {
+    "model": {
+     "episodes": 66,
+     "caught": 12,
+     "recall": 0.18181818181818182,
+     "first_recall": 0.0,
+     "recur_recall": 0.2857142857142857,
+     "median_lead_h": 23.080555555555556,
+     "alarm_card_days": 223,
+     "precision": 0.06278026905829596
+    },
+    "rule": {
+     "episodes": 66,
+     "caught": 28,
+     "recall": 0.42424242424242425,
+     "first_recall": 0.08333333333333333,
+     "recur_recall": 0.6190476190476191,
+     "median_lead_h": 23.095277777777778,
+     "alarm_card_days": 4525,
+     "precision": 0.00574585635359116
+    },
+    "model_same_budget": {
+     "episodes": 66,
+     "caught": 35,
+     "recall": 0.5303030303030303,
+     "first_recall": 0.041666666666666664,
+     "recur_recall": 0.8095238095238095,
+     "median_lead_h": 23.257777777777775,
+     "alarm_card_days": 4525,
+     "precision": 0.0070718232044198895
+    },
+    "rule_window": {
+     "episodes": 66,
+     "caught": 2,
+     "recall": 0.030303030303030304,
+     "first_recall": 0.0,
+     "recur_recall": 0.047619047619047616,
+     "median_lead_h": 4.373333333333333,
+     "alarm_card_days": 180,
+     "precision": 0.03888888888888889
+    },
+    "model_same_budget_window": {
+     "episodes": 66,
+     "caught": 8,
+     "recall": 0.12121212121212122,
+     "first_recall": 0.0,
+     "recur_recall": 0.19047619047619047,
+     "median_lead_h": 23.105833333333333,
+     "alarm_card_days": 180,
+     "precision": 0.05
+    }
+   },
+   "4h": {
+    "model": {
+     "episodes": 66,
+     "caught": 20,
+     "recall": 0.30303030303030304,
+     "first_recall": 0.0,
+     "recur_recall": 0.47619047619047616,
+     "median_lead_h": 23.061944444444446,
+     "alarm_card_days": 237,
+     "precision": 0.0759493670886076
+    },
+    "rule": {
+     "episodes": 66,
+     "caught": 28,
+     "recall": 0.42424242424242425,
+     "first_recall": 0.08333333333333333,
+     "recur_recall": 0.6190476190476191,
+     "median_lead_h": 23.095277777777778,
+     "alarm_card_days": 4525,
+     "precision": 0.00574585635359116
+    },
+    "model_same_budget": {
+     "episodes": 66,
+     "caught": 37,
+     "recall": 0.5606060606060606,
+     "first_recall": 0.041666666666666664,
+     "recur_recall": 0.8571428571428571,
+     "median_lead_h": 23.259722222222223,
+     "alarm_card_days": 4526,
+     "precision": 0.007512152010605391
+    },
+    "rule_window": {
+     "episodes": 66,
+     "caught": 8,
+     "recall": 0.12121212121212122,
+     "first_recall": 0.0,
+     "recur_recall": 0.19047619047619047,
+     "median_lead_h": 4.373333333333333,
+     "alarm_card_days": 210,
+     "precision": 0.0380952380952381
+    },
+    "model_same_budget_window": {
+     "episodes": 66,
+     "caught": 16,
+     "recall": 0.24242424242424243,
+     "first_recall": 0.0,
+     "recur_recall": 0.38095238095238093,
+     "median_lead_h": 23.061944444444446,
+     "alarm_card_days": 210,
+     "precision": 0.06666666666666667
+    }
+   },
+   "1d": {
+    "model": {
+     "episodes": 66,
+     "caught": 15,
+     "recall": 0.22727272727272727,
+     "first_recall": 0.0,
+     "recur_recall": 0.35714285714285715,
+     "median_lead_h": 23.080555555555556,
+     "alarm_card_days": 217,
+     "precision": 0.055299539170506916
+    },
+    "rule": {
+     "episodes": 66,
+     "caught": 28,
+     "recall": 0.42424242424242425,
+     "first_recall": 0.08333333333333333,
+     "recur_recall": 0.6190476190476191,
+     "median_lead_h": 23.095277777777778,
+     "alarm_card_days": 4525,
+     "precision": 0.00574585635359116
+    },
+    "model_same_budget": {
+     "episodes": 66,
+     "caught": 37,
+     "recall": 0.5606060606060606,
+     "first_recall": 0.041666666666666664,
+     "recur_recall": 0.8571428571428571,
+     "median_lead_h": 23.25583333333333,
+     "alarm_card_days": 4527,
+     "precision": 0.007510492599955821
+    },
+    "rule_window": {
+     "episodes": 66,
+     "caught": 12,
+     "recall": 0.18181818181818182,
+     "first_recall": 0.0,
+     "recur_recall": 0.2857142857142857,
+     "median_lead_h": 7.6154166666666665,
+     "alarm_card_days": 340,
+     "precision": 0.029411764705882353
+    },
+    "model_same_budget_window": {
+     "episodes": 66,
+     "caught": 20,
+     "recall": 0.30303030303030304,
+     "first_recall": 0.0,
+     "recur_recall": 0.47619047619047616,
+     "median_lead_h": 23.17736111111111,
+     "alarm_card_days": 340,
+     "precision": 0.052941176470588235
+    }
+   }
+  },
+  "ce": {
+   "1h": {
+    "model": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 432,
+     "precision": 0.020833333333333332
+    },
+    "rule": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 637,
+     "precision": 0.0141287284144427
+    },
+    "model_same_budget": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 637,
+     "precision": 0.0141287284144427
+    },
+    "rule_window": {
+     "episodes": 26,
+     "caught": 1,
+     "recall": 0.038461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.05555555555555555,
+     "median_lead_h": 12.0,
+     "alarm_card_days": 43,
+     "precision": 0.13953488372093023
+    },
+    "model_same_budget_window": {
+     "episodes": 26,
+     "caught": 8,
+     "recall": 0.3076923076923077,
+     "first_recall": 0.0,
+     "recur_recall": 0.4444444444444444,
+     "median_lead_h": 13.083333333333332,
+     "alarm_card_days": 43,
+     "precision": 0.20930232558139536
+    }
+   },
+   "4h": {
+    "model": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 434,
+     "precision": 0.020737327188940093
+    },
+    "rule": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 637,
+     "precision": 0.0141287284144427
+    },
+    "model_same_budget": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 637,
+     "precision": 0.0141287284144427
+    },
+    "rule_window": {
+     "episodes": 26,
+     "caught": 2,
+     "recall": 0.07692307692307693,
+     "first_recall": 0.0,
+     "recur_recall": 0.1111111111111111,
+     "median_lead_h": 13.083333333333332,
+     "alarm_card_days": 44,
+     "precision": 0.13636363636363635
+    },
+    "model_same_budget_window": {
+     "episodes": 26,
+     "caught": 8,
+     "recall": 0.3076923076923077,
+     "first_recall": 0.0,
+     "recur_recall": 0.4444444444444444,
+     "median_lead_h": 13.083333333333332,
+     "alarm_card_days": 44,
+     "precision": 0.20454545454545456
+    }
+   },
+   "1d": {
+    "model": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 433,
+     "precision": 0.020785219399538105
+    },
+    "rule": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 637,
+     "precision": 0.0141287284144427
+    },
+    "model_same_budget": {
+     "episodes": 26,
+     "caught": 10,
+     "recall": 0.38461538461538464,
+     "first_recall": 0.0,
+     "recur_recall": 0.5555555555555556,
+     "median_lead_h": 18.833333333333332,
+     "alarm_card_days": 642,
+     "precision": 0.014018691588785047
+    },
+    "rule_window": {
+     "episodes": 26,
+     "caught": 8,
+     "recall": 0.3076923076923077,
+     "first_recall": 0.0,
+     "recur_recall": 0.4444444444444444,
+     "median_lead_h": 13.083333333333332,
+     "alarm_card_days": 69,
+     "precision": 0.13043478260869565
+    },
+    "model_same_budget_window": {
+     "episodes": 26,
+     "caught": 8,
+     "recall": 0.3076923076923077,
+     "first_recall": 0.0,
+     "recur_recall": 0.4444444444444444,
+     "median_lead_h": 13.083333333333332,
+     "alarm_card_days": 72,
+     "precision": 0.125
+    }
+   }
+  }
+ },
+ "demo_thresholds": {
+  "log": {
+   "1h": {
+    "high": 0.0004417391028255224,
+    "watch": 4.631655428966042e-06,
+    "alarm_rate_high": 0.00067141281760827,
+    "alarm_rate_watch": 0.031329941260755736,
+    "valF1": 0.0014055003279645126,
+    "fpr1": 4.165483469307001e-06
+   },
+   "4h": {
+    "high": 0.008479411713778973,
+    "watch": 9.115713510254864e-06,
+    "alarm_rate_high": 0.00067141281760827,
+    "alarm_rate_watch": 0.031329941260755736,
+    "valF1": 0.0015505562102794042,
+    "fpr1": 8.349103236815078e-06
+   },
+   "1d": {
+    "high": 0.2820706438705814,
+    "watch": 3.058734303052252e-05,
+    "alarm_rate_high": 0.00067141281760827,
+    "alarm_rate_watch": 0.031329941260755736,
+    "valF1": 0.2820706438705814,
+    "fpr1": 3.058734303052252e-05
+   }
+  },
+  "ce": {
+   "1h": {
+    "high": 0.0001413508434779942,
+    "watch": 5.090408376418054e-05,
+    "alarm_rate_high": 0.029876914269357378,
+    "alarm_rate_watch": 0.09506643289919374,
+    "valF1": 1.0,
+    "fpr1": 0.0004035512510088801
+   },
+   "4h": {
+    "high": 0.0027341358363628387,
+    "watch": 0.000754411390516907,
+    "alarm_rate_high": 0.029876914269357378,
+    "alarm_rate_watch": 0.09506643289919374,
+    "valF1": 0.007396149777424585,
+    "fpr1": 0.007396149777424586
+   },
+   "1d": {
+    "high": 0.008461291432974912,
+    "watch": 0.002820430477658304,
+    "alarm_rate_high": 0.029876914269357378,
+    "alarm_rate_watch": 0.09506643289919374,
+    "valF1": 0.008461291432974912,
+    "fpr1": 0.014149279959563308
+   }
+  }
+ },
+ "cal_shift_days": -549.0,
+ "ablation": {
+  "log": {
+   "hybrid": {
+    "1h": {
+     "pr_auc": 0.007593770181559515,
+     "calib": 0.3104152612408639,
+     "pos": 66,
+     "model": {
+      "episodes": 66,
+      "caught": 12,
+      "recall": 0.18181818181818182,
+      "first_recall": 0.0,
+      "recur_recall": 0.2857142857142857,
+      "median_lead_h": 23.080555555555556,
+      "alarm_card_days": 223,
+      "precision": 0.06278026905829596
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 35,
+      "recall": 0.5303030303030303,
+      "first_recall": 0.041666666666666664,
+      "recur_recall": 0.8095238095238095,
+      "median_lead_h": 23.257777777777775,
+      "alarm_card_days": 4525,
+      "precision": 0.0070718232044198895
+     }
+    },
+    "4h": {
+     "pr_auc": 0.011449735900336242,
+     "calib": 0.9348395361258433,
+     "pos": 254,
+     "model": {
+      "episodes": 66,
+      "caught": 20,
+      "recall": 0.30303030303030304,
+      "first_recall": 0.0,
+      "recur_recall": 0.47619047619047616,
+      "median_lead_h": 23.061944444444446,
+      "alarm_card_days": 237,
+      "precision": 0.0759493670886076
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 37,
+      "recall": 0.5606060606060606,
+      "first_recall": 0.041666666666666664,
+      "recur_recall": 0.8571428571428571,
+      "median_lead_h": 23.259722222222223,
+      "alarm_card_days": 4526,
+      "precision": 0.007512152010605391
+     }
+    },
+    "1d": {
+     "pr_auc": 0.01936115954362968,
+     "calib": 2.5928125218181393,
+     "pos": 1396,
+     "model": {
+      "episodes": 66,
+      "caught": 15,
+      "recall": 0.22727272727272727,
+      "first_recall": 0.0,
+      "recur_recall": 0.35714285714285715,
+      "median_lead_h": 23.080555555555556,
+      "alarm_card_days": 217,
+      "precision": 0.055299539170506916
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 37,
+      "recall": 0.5606060606060606,
+      "first_recall": 0.041666666666666664,
+      "recur_recall": 0.8571428571428571,
+      "median_lead_h": 23.25583333333333,
+      "alarm_card_days": 4527,
+      "precision": 0.007510492599955821
+     }
+    }
+   },
+   "ai": {
+    "1h": {
+     "pr_auc": 0.0015535369971676257,
+     "calib": 0.6697721114621629,
+     "pos": 66,
+     "model": {
+      "episodes": 66,
+      "caught": 27,
+      "recall": 0.4090909090909091,
+      "first_recall": 0.0,
+      "recur_recall": 0.6428571428571429,
+      "median_lead_h": 23.22361111111111,
+      "alarm_card_days": 990,
+      "precision": 0.024242424242424242
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 41,
+      "recall": 0.6212121212121212,
+      "first_recall": 0.041666666666666664,
+      "recur_recall": 0.9523809523809523,
+      "median_lead_h": 23.259722222222223,
+      "alarm_card_days": 4525,
+      "precision": 0.00861878453038674
+     }
+    },
+    "4h": {
+     "pr_auc": 0.010264369312106872,
+     "calib": 4.058477006606728,
+     "pos": 254,
+     "model": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.0,
+      "recur_recall": 0.6666666666666666,
+      "median_lead_h": 23.23972222222222,
+      "alarm_card_days": 905,
+      "precision": 0.027624309392265192
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 40,
+      "recall": 0.6060606060606061,
+      "first_recall": 0.041666666666666664,
+      "recur_recall": 0.9285714285714286,
+      "median_lead_h": 23.285138888888888,
+      "alarm_card_days": 4527,
+      "precision": 0.008394079964656506
+     }
+    },
+    "1d": {
+     "pr_auc": 0.026166937022869645,
+     "calib": 2.5650513664783694,
+     "pos": 1396,
+     "model": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.0,
+      "recur_recall": 0.6666666666666666,
+      "median_lead_h": 23.23972222222222,
+      "alarm_card_days": 936,
+      "precision": 0.026709401709401708
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 39,
+      "recall": 0.5909090909090909,
+      "first_recall": 0.041666666666666664,
+      "recur_recall": 0.9047619047619048,
+      "median_lead_h": 23.259722222222223,
+      "alarm_card_days": 4525,
+      "precision": 0.008176795580110497
+     }
+    }
+   },
+   "rules": {
+    "1h": {
+     "pr_auc": 0.0004675080774861593,
+     "calib": 3.3282662776908363,
+     "pos": 66,
+     "model": {
+      "episodes": 66,
+      "caught": 0,
+      "recall": 0.0,
+      "first_recall": 0.0,
+      "recur_recall": 0.0,
+      "median_lead_h": null,
+      "alarm_card_days": 31,
+      "precision": 0.0
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 37,
+      "recall": 0.5606060606060606,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.8333333333333334,
+      "median_lead_h": 23.255972222222223,
+      "alarm_card_days": 5234,
+      "precision": 0.006687046236148261
+     }
+    },
+    "4h": {
+     "pr_auc": 0.0039665169759790396,
+     "calib": 3.9053090951869356,
+     "pos": 254,
+     "model": {
+      "episodes": 66,
+      "caught": 11,
+      "recall": 0.16666666666666666,
+      "first_recall": 0.0,
+      "recur_recall": 0.2619047619047619,
+      "median_lead_h": 23.09861111111111,
+      "alarm_card_days": 169,
+      "precision": 0.05917159763313609
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 35,
+      "recall": 0.5303030303030303,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.7857142857142857,
+      "median_lead_h": 23.237916666666667,
+      "alarm_card_days": 4705,
+      "precision": 0.007013815090329437
+     }
+    },
+    "1d": {
+     "pr_auc": 0.019874053712106925,
+     "calib": 1.9446933704895613,
+     "pos": 1396,
+     "model": {
+      "episodes": 66,
+      "caught": 16,
+      "recall": 0.24242424242424243,
+      "first_recall": 0.0,
+      "recur_recall": 0.38095238095238093,
+      "median_lead_h": 23.089583333333334,
+      "alarm_card_days": 174,
+      "precision": 0.08620689655172414
+     },
+     "rule": {
+      "episodes": 66,
+      "caught": 28,
+      "recall": 0.42424242424242425,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.6190476190476191,
+      "median_lead_h": 23.095277777777778,
+      "alarm_card_days": 4525,
+      "precision": 0.00574585635359116
+     },
+     "model_same_budget": {
+      "episodes": 66,
+      "caught": 39,
+      "recall": 0.5909090909090909,
+      "first_recall": 0.08333333333333333,
+      "recur_recall": 0.8809523809523809,
+      "median_lead_h": 23.259722222222223,
+      "alarm_card_days": 4813,
+      "precision": 0.007271971743195512
+     }
+    }
+   }
+  },
+  "ce": {
+   "hybrid": {
+    "1h": {
+     "pr_auc": 0.008593985454084681,
+     "calib": 0.4974593548193717,
+     "pos": 26,
+     "model": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 432,
+      "precision": 0.020833333333333332
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     }
+    },
+    "4h": {
+     "pr_auc": 0.022337696749699057,
+     "calib": 2.0653761802241206,
+     "pos": 102,
+     "model": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 434,
+      "precision": 0.020737327188940093
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     }
+    },
+    "1d": {
+     "pr_auc": 0.05824679056528088,
+     "calib": 1.3365042469205153,
+     "pos": 532,
+     "model": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 433,
+      "precision": 0.020785219399538105
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 642,
+      "precision": 0.014018691588785047
+     }
+    }
+   },
+   "ai": {
+    "1h": {
+     "pr_auc": 0.001959433907582165,
+     "calib": 0.33846354528580463,
+     "pos": 26,
+     "model": {
+      "episodes": 26,
+      "caught": 7,
+      "recall": 0.2692307692307692,
+      "first_recall": 0.0,
+      "recur_recall": 0.3888888888888889,
+      "median_lead_h": 13.083333333333332,
+      "alarm_card_days": 334,
+      "precision": 0.02694610778443114
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 13.083333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.015698587127158554
+     }
+    },
+    "4h": {
+     "pr_auc": 0.007771966051890583,
+     "calib": 1.8988509211206812,
+     "pos": 102,
+     "model": {
+      "episodes": 26,
+      "caught": 7,
+      "recall": 0.2692307692307692,
+      "first_recall": 0.0,
+      "recur_recall": 0.3888888888888889,
+      "median_lead_h": 13.083333333333332,
+      "alarm_card_days": 335,
+      "precision": 0.026865671641791045
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 13.083333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.015698587127158554
+     }
+    },
+    "1d": {
+     "pr_auc": 0.021983240079297518,
+     "calib": 1.1230693638326112,
+     "pos": 532,
+     "model": {
+      "episodes": 26,
+      "caught": 8,
+      "recall": 0.3076923076923077,
+      "first_recall": 0.0,
+      "recur_recall": 0.4444444444444444,
+      "median_lead_h": 13.083333333333332,
+      "alarm_card_days": 335,
+      "precision": 0.026865671641791045
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 13.083333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.015698587127158554
+     }
+    }
+   },
+   "rules": {
+    "1h": {
+     "pr_auc": 7.752492724583751e-05,
+     "calib": 2.157036274762028,
+     "pos": 26,
+     "model": {
+      "episodes": 26,
+      "caught": 0,
+      "recall": 0.0,
+      "first_recall": 0.0,
+      "recur_recall": 0.0,
+      "median_lead_h": null,
+      "alarm_card_days": 0,
+      "precision": 0.0
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 26,
+      "recall": 1.0,
+      "first_recall": 1.0,
+      "recur_recall": 1.0,
+      "median_lead_h": 23.666666666666668,
+      "alarm_card_days": 14025,
+      "precision": 0.001497326203208556
+     }
+    },
+    "4h": {
+     "pr_auc": 0.007130849318313357,
+     "calib": 5.705825918943197,
+     "pos": 102,
+     "model": {
+      "episodes": 26,
+      "caught": 13,
+      "recall": 0.5,
+      "first_recall": 0.0,
+      "recur_recall": 0.7222222222222222,
+      "median_lead_h": 23.5,
+      "alarm_card_days": 2742,
+      "precision": 0.00437636761487965
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 2107,
+      "precision": 0.004271476032273375
+     }
+    },
+    "1d": {
+     "pr_auc": 0.05962455051247081,
+     "calib": 3.9082141638720644,
+     "pos": 532,
+     "model": {
+      "episodes": 26,
+      "caught": 13,
+      "recall": 0.5,
+      "first_recall": 0.0,
+      "recur_recall": 0.7222222222222222,
+      "median_lead_h": 23.5,
+      "alarm_card_days": 4733,
+      "precision": 0.002535389816184238
+     },
+     "rule": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 637,
+      "precision": 0.0141287284144427
+     },
+     "model_same_budget": {
+      "episodes": 26,
+      "caught": 10,
+      "recall": 0.38461538461538464,
+      "first_recall": 0.0,
+      "recur_recall": 0.5555555555555556,
+      "median_lead_h": 18.833333333333332,
+      "alarm_card_days": 745,
+      "precision": 0.012080536912751677
+     }
+    }
+   }
+  }
+ }
+}

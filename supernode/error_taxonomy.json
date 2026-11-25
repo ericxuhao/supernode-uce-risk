@@ -1,0 +1,127 @@
+{
+  "description": "Vendor-neutral error causes for accelerator nodes. Vendor adapters map raw codes or message text to a cause; everything downstream (models, agent, UI) only sees causes.",
+  "layers": {
+    "application": "应用/作业层",
+    "driver_firmware": "驱动/固件层",
+    "hardware_memory": "硬件-设备内存",
+    "hardware_device": "硬件-芯片本体",
+    "interconnect": "硬件-片间互连",
+    "unknown": "未知"
+  },
+  "severity_order": ["info", "minor", "major", "critical"],
+  "causes": {
+    "COMPUTE_ENGINE_EXCEPTION": {
+      "name_zh": "计算引擎异常", "layer": "application", "severity": "minor", "hardware": false,
+      "description": "计算单元执行指令时触发异常，通常由程序错误、非法指令或不兼容的计算库引起。",
+      "action": "检查作业代码与计算库版本；同一程序在多节点复现时按应用问题处理。"
+    },
+    "DEVICE_MEMORY_ILLEGAL_ACCESS": {
+      "name_zh": "设备内存非法访问（页错误）", "layer": "application", "severity": "minor", "hardware": false,
+      "description": "程序访问了未映射或无权限的设备内存地址，绝大多数由应用程序缺陷引起，少数与驱动或内存硬件有关。",
+      "action": "通知作业所有者排查越界访问；若同一节点在不同作业中反复出现，再按硬件嫌疑处理。"
+    },
+    "COMPUTE_TASK_ABORTED": {
+      "name_zh": "计算任务被中止", "layer": "application", "severity": "info", "hardware": false,
+      "description": "芯片上的计算任务被主动终止，常见于作业被取消、超时或上游错误导致的清理。",
+      "action": "一般无需处置；结合同时段其他错误判断根因。"
+    },
+    "PREEMPTIVE_CLEANUP": {
+      "name_zh": "抢占式清理", "layer": "driver_firmware", "severity": "info", "hardware": false,
+      "description": "驱动在其他错误发生后清理上下文，通常是次生事件。",
+      "action": "无需单独处置，查看同时段的主错误。"
+    },
+    "CONTEXT_SWITCH_FAULT": {
+      "name_zh": "上下文切换故障", "layer": "driver_firmware", "severity": "minor", "hardware": false,
+      "description": "芯片在切换计算上下文时出错，可能与驱动缺陷或硬件状态异常有关。",
+      "action": "记录驱动版本；重复出现时升级驱动或检查硬件。"
+    },
+    "COMMAND_STREAM_CORRUPTED": {
+      "name_zh": "命令流损坏", "layer": "driver_firmware", "severity": "minor", "hardware": false,
+      "description": "下发到芯片的命令队列数据无效或损坏。",
+      "action": "检查驱动与运行时版本一致性；多节点同时出现时排查软件发布。"
+    },
+    "DRIVER_FIRMWARE_ERROR": {
+      "name_zh": "驱动/固件错误", "layer": "driver_firmware", "severity": "minor", "hardware": false,
+      "description": "驱动或固件在错误处理流程中报告的异常。",
+      "action": "收集驱动日志，确认是否为已知缺陷。"
+    },
+    "MEMORY_UNCORRECTABLE_ERROR": {
+      "name_zh": "设备内存不可纠正错误", "layer": "hardware_memory", "severity": "critical", "hardware": true,
+      "description": "设备内存（如 HBM）出现多比特错误，纠错码无法修复，运行中的作业会被破坏。",
+      "action": "立即隔离节点，运行内存诊断；确认页退役/行重映射是否成功，必要时更换芯片。"
+    },
+    "MEMORY_PAGE_RETIRED": {
+      "name_zh": "设备内存页退役/行重映射", "layer": "hardware_memory", "severity": "major", "hardware": true,
+      "description": "硬件把出错的内存页或行标记为不可用，说明该内存区域已发生过错误，是后续故障的重要前兆。",
+      "action": "安排在作业间隙重启以生效；跟踪退役数量，接近上限时安排更换。"
+    },
+    "MEMORY_PAGE_RETIRE_FAILED": {
+      "name_zh": "设备内存页退役失败", "layer": "hardware_memory", "severity": "critical", "hardware": true,
+      "description": "需要退役的出错内存页未能成功隔离，错误可能继续影响作业。",
+      "action": "隔离节点并运行内存诊断，通常需要更换芯片。"
+    },
+    "MEMORY_CORRECTABLE_ERROR_STORM": {
+      "name_zh": "可纠正内存错误率过高", "layer": "hardware_memory", "severity": "major", "hardware": true,
+      "description": "单比特错误频繁出现，虽然被纠正，但说明内存可能正在退化。",
+      "action": "加入观察名单，提高巡检频率；持续出现时安排诊断。"
+    },
+    "INTERCONNECT_LINK_ERROR": {
+      "name_zh": "片间高速互连链路错误", "layer": "interconnect", "severity": "major", "hardware": true,
+      "description": "芯片之间或芯片与 CPU 之间的高速链路出现致命错误，多卡通信会失败。",
+      "action": "检查链路/线缆/桥接器，运行互连诊断；重复出现时更换相关部件。"
+    },
+    "DEVICE_LOST": {
+      "name_zh": "设备掉线", "layer": "hardware_device", "severity": "critical", "hardware": true,
+      "description": "芯片从总线上消失，主机无法再访问该设备，常见原因为供电、散热、物理连接或芯片损坏。",
+      "action": "立即隔离节点；检查供电与散热，重新插拔或更换芯片。"
+    },
+    "MICROCONTROLLER_WARNING": {
+      "name_zh": "片上管理控制器告警", "layer": "hardware_device", "severity": "major", "hardware": true,
+      "description": "芯片内部管理微控制器报告断点或告警，可能与固件或硬件状态有关。",
+      "action": "收集固件日志，检查固件版本；重复出现时安排诊断。"
+    },
+    "MICROCONTROLLER_HALT": {
+      "name_zh": "片上管理控制器停机", "layer": "hardware_device", "severity": "critical", "hardware": true,
+      "description": "芯片内部管理微控制器停止工作，芯片可能无法正常调度或调频。",
+      "action": "隔离节点并重置设备；重复出现时更换芯片。"
+    },
+    "UNKNOWN_ERROR": {
+      "name_zh": "未知错误", "layer": "unknown", "severity": "minor", "hardware": false,
+      "description": "无法映射到已知原因的错误记录。",
+      "action": "人工查看原始日志并补充映射规则。"
+    }
+  },
+  "vendor_codes": {
+    "nvidia_xid": {
+      "12": "DRIVER_FIRMWARE_ERROR",
+      "13": "COMPUTE_ENGINE_EXCEPTION",
+      "31": "DEVICE_MEMORY_ILLEGAL_ACCESS",
+      "32": "COMMAND_STREAM_CORRUPTED",
+      "38": "DRIVER_FIRMWARE_ERROR",
+      "43": "COMPUTE_TASK_ABORTED",
+      "44": "CONTEXT_SWITCH_FAULT",
+      "45": "PREEMPTIVE_CLEANUP",
+      "48": "MEMORY_UNCORRECTABLE_ERROR",
+      "61": "MICROCONTROLLER_WARNING",
+      "62": "MICROCONTROLLER_HALT",
+      "63": "MEMORY_PAGE_RETIRED",
+      "64": "MEMORY_PAGE_RETIRE_FAILED",
+      "69": "COMPUTE_ENGINE_EXCEPTION",
+      "74": "INTERCONNECT_LINK_ERROR",
+      "79": "DEVICE_LOST",
+      "92": "MEMORY_CORRECTABLE_ERROR_STORM"
+    }
+  },
+  "message_patterns": [
+    {"pattern": "(?i)fallen off the bus|device (is )?lost|not responding", "cause": "DEVICE_LOST"},
+    {"pattern": "(?i)double.?bit|uncorrectable|multi.?bit", "cause": "MEMORY_UNCORRECTABLE_ERROR"},
+    {"pattern": "(?i)retire(ment)? failed|blacklisting failed|remap(ping)? failed", "cause": "MEMORY_PAGE_RETIRE_FAILED"},
+    {"pattern": "(?i)page retire|row remap|retired page", "cause": "MEMORY_PAGE_RETIRED"},
+    {"pattern": "(?i)single.?bit|correctable .*high (error )?rate", "cause": "MEMORY_CORRECTABLE_ERROR_STORM"},
+    {"pattern": "(?i)nvlink|hccs|xgmi|infinity fabric|link .*fatal|fatal .*link", "cause": "INTERCONNECT_LINK_ERROR"},
+    {"pattern": "(?i)mmu fault|page fault|illegal (memory )?address", "cause": "DEVICE_MEMORY_ILLEGAL_ACCESS"},
+    {"pattern": "(?i)microcontroller.*halt", "cause": "MICROCONTROLLER_HALT"},
+    {"pattern": "(?i)microcontroller|breakpoint", "cause": "MICROCONTROLLER_WARNING"},
+    {"pattern": "(?i)graphics exception|engine exception|aicore exception", "cause": "COMPUTE_ENGINE_EXCEPTION"}
+  ]
+}

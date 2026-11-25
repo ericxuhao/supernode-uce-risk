@@ -1,0 +1,19 @@
+# 节点 Agent（systemd），由 install_agent.sh 生成并安装；__SERVER__ 会被替换为监测服务地址。
+[Unit]
+Description=Supernode node agent (compute-card telemetry / error collection)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /opt/supernode-agent/agent.py --server __SERVER__ --base-dir /var/lib/supernode-agent
+Restart=always
+RestartSec=10
+# 读取内核错误日志需要 root（或把运行用户加入 systemd-journal 组）
+User=root
+Nice=10
+CPUQuota=20%
+MemoryMax=512M
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,6 @@
+services:
+  supernode:
+    build: {context: .., dockerfile: deploy/Dockerfile}
+    ports: ["8765:8765"]
+    volumes: ["../var:/data"]
+    restart: unless-stopped

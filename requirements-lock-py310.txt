@@ -1,0 +1,11 @@
+# Ubuntu 22.04（系统自带 Python 3.10）离线部署所用的精确版本，随离线包的 wheels/ 一起提供。
+# numpy 2.3 起不再支持 Python 3.10，因此这里固定为 2.2.x；其余与 requirements-lock.txt 一致。
+numpy==2.2.6
+pandas==2.3.3
+scikit-learn==1.7.2
+lightgbm==4.7.0
+optuna==5.1.0
+pyarrow==21.0.0
+joblib==1.5.2
+flask==3.1.2
+waitress==3.0.2

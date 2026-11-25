@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>超节点计算卡故障风险预测</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <div class="logo">◆</div>
+    <div>
+      <div class="title" id="title">超节点计算卡故障风险预测</div>
+      <div class="sub"><span id="sn">SN-01</span> · 16 机柜 × 8 节点 × 8 计算卡 · <span id="mode">—</span></div>
+    </div>
+  </div>
+  <div class="clock">
+    <div class="clock-label">监测时钟</div>
+    <div class="clock-time" id="simtime">—</div>
+    <div class="clock-sub"><span id="runpill" class="pill">—</span> <span id="scaninfo"></span></div>
+  </div>
+  <div class="controls">
+    <div class="seg" id="srcSeg"><button data-src="replay">开源数据回放</button><button data-src="cluster">集群实时采集</button></div>
+    <button id="btnPlay" title="继续">▶</button>
+    <button id="btnPause" title="暂停">❚❚</button>
+    <button id="btnStep" title="单步扫描">⏭</button>
+    <span id="clusterInfo" class="muted" style="display:none"></span>
+    <label id="speedBox">周期 <select id="speed">
+      <option value="1">1 秒</option><option value="2">2 秒</option><option value="3" selected>3 秒</option>
+      <option value="6">6 秒</option><option value="10">10 秒</option></select></label>
+    <button id="btnHelp" class="helpbtn" title="算法介绍、算法优势与版本说明">?</button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="live">实时监测</button>
+  <button class="tab" data-tab="back">历史回溯</button>
+  <button class="tab" data-tab="collect">数据采集与处理</button>
+  <button class="tab" data-tab="model">模型与故障树</button>
+</nav>
+
+<main>
+  <!-- ======================= 实时监测 -->
+  <section id="tab-live" class="tabpane active">
+    <div class="kpis" id="kpis"></div>
+    <div class="row">
+      <div class="panel grow">
+        <div class="panel-head">
+          <h3>超节点拓扑 · 计算卡风险</h3>
+          <div class="seg" id="hzLive"></div>
+          <div class="legend">
+            <span><i class="c0"></i>正常</span><span><i class="c1"></i>关注</span><span><i class="c2"></i>高风险</span>
+            <span><i class="cx"></i>近24小时发生不可纠正错误</span><span><i class="coff"></i>未接入</span>
+          </div>
+        </div>
+        <div class="grid" id="gridLive"></div>
+      </div>
+      <div class="panel side">
+        <div class="panel-head"><h3>告警计算卡</h3><span class="muted" id="alarmCount"></span></div>
+        <div class="nodes" id="alarmNodes"></div>
+        <div class="alarmlist" id="alarmList"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>扫描记录</h3><span class="muted">每个周期：采集 → 解析 → 生成模型输入 → 推理 1/4/24 小时风险 → 故障树归因</span></div>
+      <svg id="scanChart" class="chart" viewBox="0 0 1200 140" preserveAspectRatio="none"></svg>
+    </div>
+  </section>
+
+  <!-- ======================= 历史回溯 -->
+  <section id="tab-back" class="tabpane">
+    <div class="panel">
+      <div class="panel-head"><h3>算法有效性（历史回溯期）</h3><span class="muted" id="backWindow"></span></div>
+      <div id="effTables"></div>
+      <p class="note">“预警命中”：不可纠正错误发生前，该时间窗内的扫描中至少一次风险超过高风险阈值（规则则为至少一次处于告警状态）。精确率按“告警卡·天”计算：告警后 24 小时内确实发生不可纠正错误的比例。“同等告警量”：算法取与规则相同的告警卡·天数，按风险从高到低告警。</p>
+      <p class="note"><b>为什么规则 A 在 1 / 4 / 24 小时的召回相同？</b>规则 A 是一个持续状态：卡一旦出现硬件类错误，此后 30 天每个小时都在告警，与时间窗无关。三个时间窗是嵌套的（前 1 小时 ⊂ 前 4 小时 ⊂ 前 24 小时），故障前 24 小时内亮着的告警，在前 1 小时通常仍然亮着，所以三个召回几乎总是相同。这并不代表它能提前 1 小时预测故障，而是靠大量持续告警换来的（告警卡·天远多于算法、精确率很低）。<b>规则 B</b> 只在硬件类错误发生后的 1 / 4 / 24 小时内告警，反映“对故障时间点”的预判能力，是比较各时间窗提前预测效果的对照。</p>
+    </div>
+    <div class="row">
+      <div class="panel grow">
+        <div class="panel-head">
+          <h3>历史状态回放</h3>
+          <div class="seg" id="hzBack"></div>
+          <div class="legend"><span><i class="c0"></i>正常</span><span><i class="c1"></i>关注</span><span><i class="c2"></i>高风险</span>
+            <span><i class="cnext"></i>此后24小时内实际发生不可纠正错误</span></div>
+        </div>
+        <div class="slider">
+          <input type="range" id="backSlider" min="0" max="100" value="0">
+          <span id="backTime" class="mono"></span>
+          <button id="backPrev">◀ 前1小时</button><button id="backNext">后1小时 ▶</button>
+        </div>
+        <div class="grid" id="gridBack"></div>
+        <div class="muted" id="backHit"></div>
+      </div>
+      <div class="panel side">
+        <div class="panel-head"><h3>历史不可纠正错误事件</h3><span class="muted" id="epCount"></span></div>
+        <div class="eplist" id="epList"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= 数据采集与处理 -->
+  <section id="tab-collect" class="tabpane">
+    <div class="panel">
+      <div class="panel-head"><h3>集群实时采集设置</h3><span class="muted" id="setMsg"></span></div>
+      <div class="settings">
+        <label>采集频率
+          <select id="setInterval">
+            <option value="60">1 分钟</option><option value="120">2 分钟</option><option value="300">5 分钟（默认）</option>
+            <option value="600">10 分钟</option><option value="900">15 分钟</option><option value="1800">30 分钟</option>
+            <option value="3600">60 分钟</option><option value="custom">自定义（秒）</option></select>
+          <input id="setCustom" type="number" min="10" max="3600" step="10" style="width:90px;display:none">
+        </label>
+        <label>数据保留 <input id="setRetention" type="number" min="1" max="3650" style="width:70px"> 天</label>
+        <button id="setSave">保存并下发到各节点</button>
+      </div>
+      <div class="storage" id="storage"></div>
+      <p class="note">采集频率决定每张计算卡的采样间隔（较慢的档位按比例放大），各节点 Agent 每分钟拉取一次设置后立即生效；同一频率也是集群模式的扫描周期。频率越高，预测越及时，存储越大。内核错误日志实时读取，不受采集频率影响。</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>采集节点与采集能力自动判定</h3><span class="muted" id="agentCount"></span></div>
+      <div id="agents"></div>
+      <div class="deploy">在每个计算节点上部署 Agent：<code id="deployCmd"></code></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>处理流水线</h3></div>
+      <div class="flow" id="flow"></div>
+    </div>
+    <div class="row">
+      <div class="panel grow"><div class="panel-head"><h3>本机采集源探测</h3></div><div id="probes"></div></div>
+      <div class="panel grow"><div class="panel-head"><h3>回放数据源</h3></div><div id="replay"></div></div>
+    </div>
+    <div class="panel"><div class="panel-head"><h3>本机实时采集（真实时间）</h3><span class="muted" id="localHost"></span></div>
+      <div id="localTable"></div>
+      <svg id="localChart" class="chart" viewBox="0 0 1200 140" preserveAspectRatio="none"></svg>
+      <div class="legend"><span><i style="background:#ffa726"></i>核心温度 ℃</span><span><i style="background:#42a5f5"></i>功率 W（右轴）</span></div>
+      <p class="note">本机检测到可访问的计算卡时，每个扫描周期采集一次，按采集器格式写入缓冲目录，与回放数据走同一条解析链路；不支持的字段记为空值，不以 0 代替。</p></div>
+    <div class="panel"><div class="panel-head"><h3>字段识别与模型输入（按字段自动适配）</h3></div><div id="fields"></div></div>
+  </section>
+
+  <!-- ======================= 模型与故障树 -->
+  <section id="tab-model" class="tabpane">
+    <div class="panel"><div class="panel-head"><h3>风险模型</h3></div><div id="models"></div></div>
+    <div class="panel"><div class="panel-head"><h3>故障树（基本事件权重 = P(24小时内不可纠正错误 | 事件)）</h3></div><div id="ftaStatic"></div></div>
+  </section>
+</main>
+
+
+<!-- help: algorithm introduction, advantages, version -->
+<div id="help" class="drawer hidden">
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <div><div class="d-title" style="font-family:inherit">帮助</div><div class="muted" id="helpSub"></div></div>
+      <button id="helpClose">✕</button>
+    </div>
+    <nav class="tabs htabs">
+      <button class="htab active" data-h="intro">算法介绍</button>
+      <button class="htab" data-h="adv">算法优势</button>
+      <button class="htab" data-h="ver">版本说明</button>
+    </nav>
+    <section id="h-intro" class="hpane active">
+      <div class="panel">
+        <div class="panel-head"><h3>做什么</h3></div>
+        <p>根据计算卡的错误日志、可纠正错误统计和运行遥测，对超节点内每张计算卡定时预测<b>未来 1 小时、4 小时、24 小时</b>发生不可纠正错误的概率；对风险超过关注线的计算卡，用故障树自动给出故障类别、根因和处置建议。</p>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>处理流程</h3></div>
+        <div class="flow">
+          <div class="step"><div class="n">1</div><div class="t">采集</div><div class="d">节点 Agent 自动探测本机可采集的指标与日志，按设定频率（默认 5 分钟）采集并上报；没有采集源时回放开源数据</div></div>
+          <div class="step"><div class="n">2</div><div class="t">标准化</div><div class="d">错误码映射为与厂商无关的故障原因；计数器增量转为可纠正 / 不可纠正错误记录</div></div>
+          <div class="step"><div class="n">3</div><div class="t">按字段生成输入</div><div class="d">自动识别设备、时间、错误类型、地址层级、计数、遥测等字段，按字段开关特征模块</div></div>
+          <div class="step"><div class="n">4</div><div class="t">特征</div><div class="d">错误事件、可纠正错误计数与空间分布、不可纠正错误历史、遥测、同节点、配置，共七组</div></div>
+          <div class="step"><div class="n">5</div><div class="t">风险推理</div><div class="d">分段风险模型输出三个时间窗的概率，结构上保证 1 小时 ≤ 4 小时 ≤ 24 小时</div></div>
+          <div class="step"><div class="n">6</div><div class="t">归因</div><div class="d">故障树：5 类故障、20 个基本事件，权重为“出现该事件后 24 小时内发生不可纠正错误”的条件概率</div></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>模型：AI + 规则混合</h3></div>
+        <table>
+          <tr><th>组成</th><th>说明</th></tr>
+          <tr><td>规则评分卡</td><td>把领域规则（近期不可纠正错误、行 / 列 / bank 故障、可纠正错误突发、硬件事件、遥测偏高等）离散成档位，逻辑回归估计每档权重；可读、小样本稳定，并给出报警依据</td></tr>
+          <tr><td>LightGBM 分段风险模型</td><td>把未来 24 小时分成 (0,1h]、(1h,4h]、(4h,24h] 三段分别建模再合成；对“不可纠正错误越近越多风险越高”等关系施加单调约束；验证期正样本足够时自动调参</td></tr>
+          <tr><td>融合</td><td>两者在 logit 空间加权，权重在验证期上选择；3 个随机种子装袋；先验校正后输出的是校准过的概率</td></tr>
+          <tr><td>报警线</td><td>24 小时：高风险为验证期 F1 最优阈值，关注为 1% 误报阈值；1 小时 / 4 小时按与 24 小时相同的告警比例确定</td></tr>
+        </table>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>适用范围</h3></div>
+        <ul class="ul">
+          <li>能抓到的主要是<b>复发</b>和<b>短时间内快速恶化</b>的计算卡；首次不可纠正错误在公开数据中几乎没有前兆，召回接近 0。</li>
+          <li>有可纠正错误统计、行重映射、内核错误日志时效果最好；只有遥测时只能做热 / 供电归因。</li>
+          <li>报警阈值与机群规模、误报预算有关，接入新集群后应以新集群的数据重新确定。</li>
+        </ul>
+      </div>
+    </section>
+    <section id="h-adv" class="hpane">
+    <div class="advhero" id="advHero"></div>
+    <div class="panel">
+      <div class="panel-head"><h3>与已发表论文的精度对比</h3><span class="muted">本框架数值实时读取自实验结果文件</span></div>
+      <div id="advCompare"></div>
+      <p class="note">“论文同口径”指按论文自己的数据处理与评测方式重算；“严格口径”指按时间或分层切分、测试集保持真实正负比例、阈值只在验证集上确定。不同任务的对比仅作参考，不计为超越。</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>AI + 规则混合的作用（本原型回溯期，同一批数据与报警策略）</h3><span class="muted" id="advWindow"></span></div>
+      <div id="advAblation"></div>
+      <p class="note">同等告警量：各方法取与“简单规则”相同的告警卡·天数，比较抓到的故障比例和精确率；校准比 = 平均预测概率 ÷ 实际发生率，越接近 1 越可信。</p>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h3>算法能力</h3></div>
+      <div class="caps" id="advCaps"></div>
+    </div>
+  </section>
+    <section id="h-ver" class="hpane">
+      <div class="panel"><div class="panel-head"><h3>版本</h3></div><div id="verInfo"></div></div>
+    </section>
+  </div>
+</div>
+
+<!-- card detail drawer -->
+<div id="drawer" class="drawer hidden">
+  <div class="drawer-inner">
+    <div class="drawer-head">
+      <div><div class="d-title" id="dTitle"></div><div class="muted" id="dSub"></div></div>
+      <button id="dClose">✕</button>
+    </div>
+    <div class="dkpis" id="dKpis"></div>
+    <div class="panel"><div class="panel-head"><h3>风险轨迹（前 7 天）</h3><span class="legend">
+      <span><i style="background:#ef5350"></i>1小时</span><span><i style="background:#ffa726"></i>4小时</span><span><i style="background:#42a5f5"></i>24小时</span>
+      <span><i class="cx"></i>不可纠正错误</span></span></div>
+      <svg id="dRisk" class="chart" viewBox="0 0 900 200" preserveAspectRatio="none"></svg></div>
+    <div class="panel"><div class="panel-head"><h3>故障树归因</h3><span id="dCat" class="tag"></span></div><div id="dFta"></div></div>
+    <div class="row">
+      <div class="panel grow"><div class="panel-head"><h3>遥测（前 24 小时）</h3></div>
+        <svg id="dTel" class="chart" viewBox="0 0 600 170" preserveAspectRatio="none"></svg>
+        <div class="legend"><span><i style="background:#ffa726"></i>核心温度 ℃</span><span><i style="background:#ef5350"></i>显存温度 ℃</span><span><i style="background:#42a5f5"></i>功率 W（右轴）</span><span><i style="background:#455a64"></i>作业运行</span></div></div>
+      <div class="panel grow"><div class="panel-head"><h3>事件与运行日志</h3></div><div class="evlist" id="dEvents"></div></div>
+    </div>
+  </div>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>

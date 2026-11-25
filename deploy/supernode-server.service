@@ -1,0 +1,22 @@
+# 监测服务（systemd）。安装：
+#   sudo cp supernode-server.service /etc/systemd/system/ && sudo systemctl daemon-reload
+#   sudo systemctl enable --now supernode-server
+[Unit]
+Description=Supernode compute-card failure risk prediction service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/supernode
+Environment=PORT=8765
+Environment=HOST=0.0.0.0
+Environment=SUPERNODE_DATA_DIR=/var/lib/supernode
+ExecStart=/opt/supernode/.venv/bin/python supernode/server.py
+Restart=always
+RestartSec=5
+User=supernode
+Group=supernode
+
+[Install]
+WantedBy=multi-user.target

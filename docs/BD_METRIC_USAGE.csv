@@ -1,0 +1,102 @@
+﻿metric,snake,kind,group,zh,used_as
+DCGM_FI_DEV_APP_MEM_CLOCK,app_mem_clock,static,clock,应用时钟配置的显存频率 (MHz),遥测特征 te__mem_clock_frac（显存频率/最大频率）
+DCGM_FI_DEV_APP_SM_CLOCK,app_sm_clock,static,clock,应用时钟配置的 SM 频率 (MHz),遥测特征 te__sm_clock_frac（SM 频率/最大频率）
+DCGM_FI_DEV_BANKS_REMAP_ROWS_AVAIL_HIGH,banks_remap_rows_avail_high,gauge,remap,备用行可用性 High 档的 bank 数,遥测特征 te__banks_used（已动用备用行的 bank 数）
+DCGM_FI_DEV_BANKS_REMAP_ROWS_AVAIL_LOW,banks_remap_rows_avail_low,gauge,remap,备用行可用性 Low 档的 bank 数,事件 SPARE_ROWS_PARTIAL；事件 SPARE_ROWS_LOW；遥测特征 te__banks_used（已动用备用行的 bank 数）；遥测特征 te__banks_low（备用行 Low 档 bank 数）
+DCGM_FI_DEV_BANKS_REMAP_ROWS_AVAIL_MAX,banks_remap_rows_avail_max,gauge,remap,备用行完整可用（Max 档）的 bank 数,遥测特征 te__banks_used（已动用备用行的 bank 数）
+DCGM_FI_DEV_BANKS_REMAP_ROWS_AVAIL_NONE,banks_remap_rows_avail_none,gauge,remap,备用行耗尽（None 档）的 bank 数,事件 SPARE_ROWS_PARTIAL；事件 SPARE_ROWS_LOW；事件 SPARE_ROWS_EXHAUSTED；遥测特征 te__banks_used（已动用备用行的 bank 数）；遥测特征 te__banks_none（备用行耗尽的 bank 数）
+DCGM_FI_DEV_BANKS_REMAP_ROWS_AVAIL_PARTIAL,banks_remap_rows_avail_partial,gauge,remap,备用行部分可用（Partial 档）的 bank 数,事件 SPARE_ROWS_PARTIAL；遥测特征 te__banks_used（已动用备用行的 bank 数）；遥测特征 te__banks_partial（备用行 Partial 档 bank 数）
+DCGM_FI_DEV_BAR1_FREE,bar1_free,gauge,memory,BAR1 映射空间空闲 (MB),冗余：已由 te__bar1_used_frac 覆盖
+DCGM_FI_DEV_BAR1_TOTAL,bar1_total,static,memory,BAR1 映射空间总量 (MB),遥测特征 te__bar1_used_frac（BAR1 已用比例）
+DCGM_FI_DEV_BAR1_USED,bar1_used,gauge,memory,BAR1 映射空间已用 (MB),遥测特征 te__bar1_used_frac（BAR1 已用比例）
+DCGM_FI_DEV_C2C_LINK_ERROR_INTR,c2c_link_error_intr,vcounter,c2c,C2C 链路 CRC 错误计数,事件 C2C_LINK_ERROR；遥测特征 te__c2c_err_rate（C2C 链路错误速率（每分钟））
+DCGM_FI_DEV_C2C_LINK_ERROR_REPLAY,c2c_link_error_replay,vcounter,c2c,C2C 链路重放计数,事件 C2C_LINK_ERROR；遥测特征 te__c2c_err_rate（C2C 链路错误速率（每分钟））
+DCGM_FI_DEV_C2C_LINK_ERROR_REPLAY_B2B,c2c_link_error_replay_b2b,vcounter,c2c,C2C 链路背靠背重放计数,事件 C2C_LINK_ERROR；遥测特征 te__c2c_err_rate（C2C 链路错误速率（每分钟））
+DCGM_FI_DEV_C2C_LINK_POWER_STATE,c2c_link_power_state,enum,c2c,C2C 链路功耗状态,遥测特征 te__c2c_power_state（C2C 功耗状态）
+DCGM_FI_DEV_C2C_LINK_STATUS,c2c_link_status,flag,c2c,C2C 链路激活状态 (1=ACTIVE),事件 C2C_LINK_DOWN；遥测特征 te__c2c_up（C2C 链路激活）
+DCGM_FI_DEV_C2C_MAX_BANDWIDTH,c2c_max_bandwidth,static,c2c,C2C 链路最大带宽 (MB/s),静态配置：C2C 实际带宽用 sdnc_nvlink_c2c_*
+DCGM_FI_DEV_CLOCKS_EVENT_REASONS,clocks_event_reasons,bitmask,clock,时钟受限原因位掩码,事件 THERMAL_THROTTLE / HW_SLOWDOWN；遥测特征 te__thr_idle（空闲降频）；遥测特征 te__thr_power_cap（功耗上限降频）；遥测特征 te__thr_hw_slowdown（硬件降频/功率刹车）；遥测特征 te__thr_thermal（温度降频）；遥测特征 te__thr_sync_boost（同步加速限制）
+DCGM_FI_DEV_CORRECTABLE_REMAPPED_ROWS,correctable_remapped_rows,counter,remap,因可纠正错误重映射的行数,事件 CE_ROW_REMAPPED；遥测特征 te__ce_rows_remapped（因可纠正错误重映射的行数）
+DCGM_FI_DEV_COUNT,gpu_count,gauge,host,节点识别到的计算卡数量,事件 DEVICE_MISSING；遥测特征 te__dev_count（节点识别到的卡数）
+DCGM_FI_DEV_DEC_UTIL,decoder_utilization,pct,workload,视频解码器利用率,遥测特征 te__dec_util（解码器利用率）
+DCGM_FI_DEV_ECC_CURRENT,ecc_current,flag,ecc,ECC 开关 (1=开),事件 ECC_OFF；遥测特征 te__ecc_on（ECC 开启）
+DCGM_FI_DEV_ECC_DBE_AGG_TOTAL,ecc_dbe_agg_total,counter,ecc,持久累计双比特（不可纠正）错误,UCE 标签：持久计数补齐缺口/复位；遥测特征 te__ue_life（累计不可纠正错误数（含观测前历史））
+DCGM_FI_DEV_ECC_DBE_VOL_TOTAL,ecc_dbe_vol_total,vcounter,ecc,易失累计双比特（不可纠正）错误,UCE 标签：易失计数给时间；事件 DRIVER_RESET；遥测特征 te__ue_life（累计不可纠正错误数（含观测前历史））
+DCGM_FI_DEV_ECC_SBE_AGG_SRM,ecc_sbe_agg_srm,counter,ecc,SRAM 持久累计单比特（可纠正）错误,CE 流（SRAM，sub 2）：持久计数补齐缺口/复位；遥测特征 te__sram_ce_life（SRAM 累计可纠正错误数）
+DCGM_FI_DEV_ECC_SBE_AGG_TOTAL,ecc_sbe_agg_total,counter,ecc,持久累计单比特（可纠正）错误,CE 流（设备内存 = 总数 - SRAM）：持久计数补齐缺口/复位；遥测特征 te__ce_life（累计可纠正错误数（含观测前历史））
+DCGM_FI_DEV_ECC_SBE_VOL_SRM,ecc_sbe_vol_srm,vcounter,ecc,SRAM 易失累计单比特错误,CE 流（SRAM，sub 2）：易失计数给时间；遥测特征 te__sram_ce_life（SRAM 累计可纠正错误数）
+DCGM_FI_DEV_ECC_SBE_VOL_TOTAL,ecc_sbe_vol_total,vcounter,ecc,易失累计单比特错误,CE 流（设备内存 = 总数 - SRAM）：易失计数给时间；事件 DRIVER_RESET；遥测特征 te__ce_life（累计可纠正错误数（含观测前历史））
+DCGM_FI_DEV_ENC_UTIL,encoder_utilization,pct,workload,视频编码器利用率,遥测特征 te__enc_util（编码器利用率）
+DCGM_FI_DEV_FB_FREE,fb_free,gauge,memory,设备内存空闲 (MiB),冗余：已由 te__fb_used_frac（已用比例）覆盖
+DCGM_FI_DEV_FB_TOTAL,fb_total,static,memory,设备内存总量 (MiB),冗余：已由 te__fb_used_frac 覆盖
+DCGM_FI_DEV_FB_USED,fb_used,gauge,memory,设备内存已用 (MiB),冗余：已由 te__fb_used_frac 覆盖
+DCGM_FI_DEV_FB_USED_PERCENT,fb_used_percent,ratio,memory,设备内存已用比例 (0-1),遥测特征 te__fb_used_frac（设备内存已用比例）
+DCGM_FI_DEV_GPU_MAX_OP_TEMP,gpu_max_op_temperature,static,thermal,芯片最高运行温度阈值,遥测特征 te__chip_temp_margin（芯片距降频温度的余量）
+DCGM_FI_DEV_GPU_TEMP,gpu_temperature,gauge,thermal,芯片温度,遥测特征 te__chip_temp（芯片温度）；遥测特征 te__chip_temp_margin（芯片距降频温度的余量）
+DCGM_FI_DEV_GPU_UTIL,gpu_utilization,pct,workload,芯片利用率,遥测特征 te__util（芯片利用率）
+DCGM_FI_DEV_MAX_MEM_CLOCK,max_mem_clock,static,clock,最大显存频率,遥测特征 te__mem_clock_frac（显存频率/最大频率）
+DCGM_FI_DEV_MAX_SM_CLOCK,max_sm_clock,static,clock,最大 SM 频率,遥测特征 te__sm_clock_frac（SM 频率/最大频率）
+DCGM_FI_DEV_MAX_VIDEO_CLOCK,max_video_clock,static,clock,最大视频单元频率,遥测特征 te__video_clock_frac（视频频率/最大频率）
+DCGM_FI_DEV_MEMORY_TEMP,memory_temperature,gauge,thermal,设备内存温度,遥测特征 te__mem_temp（设备内存温度）；遥测特征 te__mem_temp_margin（设备内存距最高运行温度的余量）
+DCGM_FI_DEV_MEM_CLOCK,mem_clock,gauge,clock,显存频率,遥测特征 te__mem_clock_frac（显存频率/最大频率）
+DCGM_FI_DEV_MEM_COPY_UTIL,mem_copy_utilization,pct,workload,内存读写活动利用率,遥测特征 te__mem_copy_util（内存读写活动利用率）
+DCGM_FI_DEV_MEM_MAX_OP_TEMP,mem_max_op_temperature,static,thermal,设备内存最高运行温度阈值,遥测特征 te__mem_temp_margin（设备内存距最高运行温度的余量）
+DCGM_FI_DEV_NVLINK_COUNT_FEC_HISTORY_0,nvlink_count_fec_history_0,vcounter,link,片间链路 FEC 纠错直方图 bin 0,遥测特征 te__fec_low_rate（片间链路 FEC bin 0 速率 (log)）
+DCGM_FI_DEV_NVLINK_COUNT_FEC_HISTORY_10,nvlink_count_fec_history_10,vcounter,link,片间链路 FEC 纠错直方图 bin 10,事件 LINK_FEC_HIGH；遥测特征 te__fec_high_rate（片间链路 FEC 高位 bin 速率）
+DCGM_FI_DEV_NVLINK_COUNT_FEC_HISTORY_15,nvlink_count_fec_history_15,vcounter,link,片间链路 FEC 纠错直方图 bin 15,事件 LINK_FEC_HIGH；遥测特征 te__fec_high_rate（片间链路 FEC 高位 bin 速率）
+DCGM_FI_DEV_NVLINK_COUNT_FEC_HISTORY_5,nvlink_count_fec_history_5,vcounter,link,片间链路 FEC 纠错直方图 bin 5,遥测特征 te__fec_mid_rate（片间链路 FEC 中位 bin 速率）
+DCGM_FI_DEV_P2P_NVLINK_STATUS,p2p_nvlink_status,bitmask,link,到同机其他卡的 P2P 连接位图,事件 P2P_LINK_DROP；遥测特征 te__p2p_links（P2P 互连数）
+DCGM_FI_DEV_PCIE_LINK_GEN,pcie_link_gen,enum,pcie,PCIe 当前代数,事件 PCIE_DEGRADED；遥测特征 te__pcie_gen_deficit（PCIe 代数低于最大值的差）
+DCGM_FI_DEV_PCIE_LINK_WIDTH,pcie_link_width,enum,pcie,PCIe 当前宽度,事件 PCIE_DEGRADED；遥测特征 te__pcie_width_deficit（PCIe 宽度低于最大值的差）
+DCGM_FI_DEV_PCIE_MAX_LINK_GEN,pcie_max_link_gen,static,pcie,PCIe 最大代数,事件 PCIE_DEGRADED；遥测特征 te__pcie_gen_deficit（PCIe 代数低于最大值的差）
+DCGM_FI_DEV_PCIE_MAX_LINK_WIDTH,pcie_max_link_width,static,pcie,PCIe 最大宽度,事件 PCIE_DEGRADED；遥测特征 te__pcie_width_deficit（PCIe 宽度低于最大值的差）
+DCGM_FI_DEV_POWER_USAGE,power_usage,gauge,power,功率 (W),遥测特征 te__power（功率）；遥测特征 te__power_spike（瞬时功率与平均功率之差）；遥测特征 te__power_limit_frac（功率/功耗上限）
+DCGM_FI_DEV_POWER_USAGE_INSTANT,power_usage_instant,gauge,power,瞬时功率 (W),遥测特征 te__power_spike（瞬时功率与平均功率之差）
+DCGM_FI_DEV_ROW_REMAP_FAILURE,row_remap_failure,flag,remap,行重映射失败 (0/1),事件 REMAP_FAILURE；遥测特征 te__remap_failure（行重映射失败）
+DCGM_FI_DEV_ROW_REMAP_PENDING,row_remap_pending,flag,remap,有待完成的行重映射 (0/1),事件 REMAP_PENDING；遥测特征 te__remap_pending（有待完成的行重映射）
+DCGM_FI_DEV_SHUTDOWN_TEMP,shutdown_temperature,static,thermal,关机保护温度阈值,静态阈值：温度余量用降频阈值（SLOWDOWN_TEMP）
+DCGM_FI_DEV_SLOWDOWN_TEMP,slowdown_temperature,static,thermal,降频保护温度阈值,遥测特征 te__chip_temp_margin（芯片距降频温度的余量）
+DCGM_FI_DEV_SM_CLOCK,sm_clock,gauge,clock,SM 频率,遥测特征 te__sm_clock_frac（SM 频率/最大频率）
+DCGM_FI_DEV_SYSIO_POWER_UTIL_CURRENT,sysio_power_utilization_current,gauge,power,SoC/系统 I/O 功率 (W),遥测特征 te__sysio_power（SoC/系统 I/O 功率）
+DCGM_FI_DEV_THRESHOLD_SRM,threshold_srm,flag,ecc,SRAM 错误超阈值 (0/1),事件 SRAM_THRESHOLD；遥测特征 te__sram_threshold（SRAM 错误超阈值）
+DCGM_FI_DEV_TOTAL_ENERGY_CONSUMPTION,total_energy_consumption,vcounter,power,驱动加载以来累计能量 (mJ),事件 DRIVER_RESET；遥测特征 te__energy_power（能量计数折算的功率）
+DCGM_FI_DEV_UNCORRECTABLE_REMAPPED_ROWS,uncorrectable_remapped_rows,counter,remap,因不可纠正错误重映射的行数,UCE 标签（不可纠正重映射）；遥测特征 te__ue_rows_remapped（因不可纠正错误重映射的行数）
+DCGM_FI_DEV_VIDEO_CLOCK,video_clock,gauge,clock,视频单元频率,遥测特征 te__video_clock_frac（视频频率/最大频率）
+DCGM_FI_DEV_XID_ERRORS,xid_errors,xid,event,驱动错误码（最近值）,UCE 标签（48/94/95）+ 事件（其他错误码 -> 错误原因）
+DCGM_FI_PROF_DRAM_ACTIVE,dram_active,ratio,workload,内存接口活跃周期比例,遥测特征 te__dram_active（内存接口活跃比例）
+DCGM_FI_PROF_GR_ENGINE_ACTIVE,gr_engine_active,ratio,workload,计算引擎活跃比例,遥测特征 te__gr_active（计算引擎活跃比例）
+DCGM_FI_PROF_HOSTMEM_CACHE_HIT,hostmem_cache_hit,pct,workload,访问主机内存的缓存命中占比,遥测特征 te__hostmem_hit（主机内存访问缓存命中占比）
+DCGM_FI_PROF_HOSTMEM_CACHE_MISS,hostmem_cache_miss,pct,workload,访问主机内存的缓存未命中占比,遥测特征 te__hostmem_miss（主机内存访问缓存未命中占比）
+DCGM_FI_PROF_PEERMEM_CACHE_HIT,peermem_cache_hit,pct,workload,访问对端内存的缓存命中占比,遥测特征 te__peermem_hit（对端内存访问缓存命中占比）
+DCGM_FI_PROF_PEERMEM_CACHE_MISS,peermem_cache_miss,pct,workload,访问对端内存的缓存未命中占比,遥测特征 te__peermem_miss（对端内存访问缓存未命中占比）
+DCGM_FI_PROF_PIPE_FP16_ACTIVE,pipe_fp16_active,ratio,workload,FP16 管线活跃比例,遥测特征 te__fp16（FP16 管线活跃比例）
+DCGM_FI_PROF_PIPE_FP32_ACTIVE,pipe_fp32_active,ratio,workload,FP32 管线活跃比例,遥测特征 te__fp32（FP32 管线活跃比例）
+DCGM_FI_PROF_PIPE_FP64_ACTIVE,pipe_fp64_active,ratio,workload,FP64 管线活跃比例,遥测特征 te__fp64（FP64 管线活跃比例）
+DCGM_FI_PROF_PIPE_INT_ACTIVE,pipe_int_active,ratio,workload,整数管线活跃比例,遥测特征 te__int_active（整数管线活跃比例）
+DCGM_FI_PROF_PIPE_TENSOR_ACTIVE,pipe_tensor_active,ratio,workload,张量管线活跃比例,遥测特征 te__tensor_active（张量管线活跃比例）
+DCGM_FI_PROF_PIPE_TENSOR_DFMA_ACTIVE,pipe_tensor_dfma_active,ratio,workload,张量 DFMA 管线活跃比例,遥测特征 te__tensor_dfma（张量 DFMA 活跃比例）
+DCGM_FI_PROF_PIPE_TENSOR_HMMA_ACTIVE,pipe_tensor_hmma_active,ratio,workload,张量 HMMA 管线活跃比例,遥测特征 te__tensor_hmma（张量 HMMA 活跃比例）
+DCGM_FI_PROF_PIPE_TENSOR_IMMA_ACTIVE,pipe_tensor_imma_active,ratio,workload,张量 IMMA 管线活跃比例,遥测特征 te__tensor_imma（张量 IMMA 活跃比例）
+DCGM_FI_PROF_SM_ACTIVE,sm_active,ratio,workload,SM 活跃比例,遥测特征 te__sm_active（SM 活跃比例）
+DCGM_FI_PROF_SM_OCCUPANCY,sm_occupancy,ratio,workload,SM 占用率,遥测特征 te__sm_occupancy（SM 占用率）
+cpu_power_usage_watts,cpu_power_usage_watts,gauge,host,CPU 功率 (W),遥测特征 te__cpu_power（CPU 功率）
+ipmitool_sensor,ipmitool_sensor,unknown,host,IPMI 传感器读数（样本值为空）,未使用：值为空
+sdnc_cmem_rd_access,sdnc_cmem_rd_access,auto,host,CMem 读访问次数,遥测特征 te__cmem_rd_access（CMem 读访问（每分钟））
+sdnc_cmem_rd_data,sdnc_cmem_rd_data,auto,host,CMem 读取数据量,遥测特征 te__cmem_rd_data（CMem 读数据量（每分钟））
+sdnc_cmem_wb_access,sdnc_cmem_wb_access,auto,host,CMem 写回访问次数,遥测特征 te__cmem_wb_access（CMem 写回访问（每分钟））
+sdnc_cmem_wr_access,sdnc_cmem_wr_access,auto,host,CMem 写访问次数,遥测特征 te__cmem_wr_access（CMem 写访问（每分钟））
+sdnc_cmem_wr_total_bytes,sdnc_cmem_wr_total_bytes,auto,host,CMem 写入总字节数,遥测特征 te__cmem_wr_bytes（CMem 写入字节（每分钟））
+sdnc_cnvlink_read_bandwidth,sdnc_cnvlink_read_bandwidth,gauge,link,片间网络读带宽 (GB/s),遥测特征 te__cnvlink_rd_bw（片间网络读带宽）
+sdnc_cnvlink_write_bandwidth,sdnc_cnvlink_write_bandwidth,gauge,link,片间网络写带宽 (GB/s),遥测特征 te__cnvlink_wr_bw（片间网络写带宽）
+sdnc_cpu_memory_read_bandwidth,sdnc_cpu_memory_read_bandwidth,gauge,host,CPU 内存读带宽 (GB/s),遥测特征 te__cpu_mem_rd_bw（CPU 内存读带宽）
+sdnc_cpu_memory_read_utilization,sdnc_cpu_memory_read_utilization,gauge,host,CPU 内存读带宽利用率,遥测特征 te__cpu_mem_rd_util（CPU 内存读带宽利用率）
+sdnc_cpu_memory_write_bandwidth,sdnc_cpu_memory_write_bandwidth,gauge,host,CPU 内存写带宽 (GB/s),遥测特征 te__cpu_mem_wr_bw（CPU 内存写带宽）
+sdnc_cpu_memory_write_utilization,sdnc_cpu_memory_write_utilization,gauge,host,CPU 内存写带宽利用率,遥测特征 te__cpu_mem_wr_util（CPU 内存写带宽利用率）
+sdnc_nvlink_c2c_read_bandwidth,sdnc_nvlink_c2c_read_bandwidth,gauge,c2c,C2C 读带宽 (GB/s),遥测特征 te__c2c_rd_bw（C2C 读带宽）
+sdnc_nvlink_c2c_write_bandwidth,sdnc_nvlink_c2c_write_bandwidth,gauge,c2c,C2C 写带宽 (GB/s),遥测特征 te__c2c_wr_bw（C2C 写带宽）
+sdnc_pcie_read_bandwidth,sdnc_pcie_read_bandwidth,gauge,pcie,PCIe 读带宽 (GB/s),遥测特征 te__pcie_rd_bw（PCIe 读带宽）
+sdnc_pcie_read_utilization,sdnc_pcie_read_utilization,gauge,pcie,PCIe 读利用率,遥测特征 te__pcie_rd_util（PCIe 读利用率）
+sdnc_pcie_write_bandwidth,sdnc_pcie_write_bandwidth,gauge,pcie,PCIe 写带宽 (GB/s),遥测特征 te__pcie_wr_bw（PCIe 写带宽）
+sdnc_pcie_write_utilization,sdnc_pcie_write_utilization,gauge,pcie,PCIe 写利用率,遥测特征 te__pcie_wr_util（PCIe 写利用率）
+sndc_host_basic_info,sndc_host_basic_info,marker,host,主机基础信息上报标记,上报标记（恒为 1）：采集连续性由分钟数据完整率 te__present 和 COLLECTOR_GAP 体现
+sndc_host_heartbeat,sndc_host_heartbeat,marker,host,主机/采集器心跳,遥测特征 te__heartbeat（采集器心跳）

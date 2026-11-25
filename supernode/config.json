@@ -1,0 +1,58 @@
+{
+  "title": "超节点计算卡故障风险预测",
+  "supernode": "SN-01",
+  "data_dir": "var",
+  "topology": {
+    "racks": 16,
+    "nodes_per_rack": 8,
+    "cards_per_node": 8
+  },
+  "window": {
+    "demo_start": "2021-07-01",
+    "live_start": "2022-04-01",
+    "demo_end": "2022-07-01"
+  },
+  "scan": {
+    "sim_step_s": 3600,
+    "tick_real_s": 3.0,
+    "telemetry_step_s": 300,
+    "spool_keep_hours": 48
+  },
+  "horizons": [
+    "1h",
+    "4h",
+    "1d"
+  ],
+  "horizon_labels": {
+    "1h": "1小时",
+    "4h": "4小时",
+    "1d": "24小时"
+  },
+  "sources": {
+    "collector_spool_dirs": [
+      "/var/lib/gpu-ecc-collector"
+    ],
+    "dcgm_exporter_urls": [
+      "http://127.0.0.1:9400/metrics"
+    ],
+    "replay": true
+  },
+  "selection": {
+    "seed": 7,
+    "hardware_event_cards": 150
+  },
+  "server": {
+    "host": "0.0.0.0",
+    "port": 8765
+  },
+  "model_dir": "models",
+  "demo_dir": "demo_data",
+  "replay": true,
+  "local_agent": true,
+  "open_data": {
+    "summit_dir": "open_data/summit",
+    "calchas_raw": "open_data/calchas/dataset(opensource).csv",
+    "artifact_telemetry": "open_data/summit_artifact_202001"
+  },
+  "_comment": "相对路径相对于发布包根目录（或环境变量 SUPERNODE_HOME）。data_dir：运行数据（设置、集群原始记录、缓冲）；model_dir：模型；demo_dir：开源数据回放（可删除，删除后只运行集群实时模式）；open_data：重建模型时使用的开源原始数据。"
+}
